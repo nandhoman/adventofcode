@@ -1002,66 +1002,88 @@ var input = `2-4 r: prrmspx
 var rightPassword = 0;
 
 function toArray(string) {
-    array = string.split("\n");
-    console.log(array);
-    return array;
+  array = string.split("\n");
+  console.log(array);
+  return array;
 }
 
 var array = toArray(input);
 
-function splitData(arrayData){
-    var splitted = arrayData.split(" ");
-    var splittedNumber = splitted[0].split("-");
-    var dataArray = [];
-    var min = splittedNumber[0];
-    dataArray.push(parseInt(min));
-    var max = splittedNumber[1];
-    dataArray.push(parseInt(max));
-    var letter = splitted[1].replace(":", "");
-    dataArray.push(letter);
-    var encryptedCode = splitted[2];
-    dataArray.push(encryptedCode);
-    return dataArray;
+function splitData(arrayData) {
+  var splitted = arrayData.split(" ");
+  var splittedNumber = splitted[0].split("-");
+  var dataArray = [];
+  var min = splittedNumber[0];
+  dataArray.push(parseInt(min));
+  var max = splittedNumber[1];
+  dataArray.push(parseInt(max));
+  var letter = splitted[1].replace(":", "");
+  dataArray.push(letter);
+  var encryptedCode = splitted[2];
+  dataArray.push(encryptedCode);
+  return dataArray;
 }
 
-function letterCounter(string, letter){
-    var arrayOfLetters = string.split("");
-    console.log(arrayOfLetters);
-    var goOn = true;
-    var count = 0;
-    while (goOn == true){
-        var thisIndex = arrayOfLetters.indexOf(letter);
-        console.log(thisIndex, letter);
-        if (thisIndex >= 0){
-        count++
-        arrayOfLetters[thisIndex] = 0;
-        }
-        else{
-            goOn = false
-        }
-
+function letterCounter(string, letter) {
+  var arrayOfLetters = string.split("");
+  console.log(arrayOfLetters);
+  var goOn = true;
+  var count = 0;
+  while (goOn == true) {
+    var thisIndex = arrayOfLetters.indexOf(letter);
+    console.log(thisIndex, letter);
+    if (thisIndex >= 0) {
+      count++;
+      arrayOfLetters[thisIndex] = 0;
+    } else {
+      goOn = false;
     }
-    return count
+  }
+  return count;
 }
 
-function compareCount(min, max, lettercount){
-    var result;
-    if (lettercount >= min && lettercount <= max){
-        result = true;
-    }
-    else{
-        result = false;
-    }
-    return result;
+function compareCount(min, max, lettercount) {
+  var result;
+  if (lettercount >= min && lettercount <= max) {
+    result = true;
+  } else {
+    result = false;
+  }
+  return result;
 }
 
-for (i = 0; i < array.length; i++) {
-    var splittedData = splitData(array[i]);
+function comparePlace(min, max, letter, encryptedCode) {
+  var arrayOfLetters = encryptedCode.split("");
+  var newArray = ["1"];
+  for (i = 0; i < arrayOfLetters.length; i++) {
+    newArray.push(arrayOfLetters[i]);
+  }
+  console.log(newArray, letter, min, max)
+  if (newArray[min] == letter || newArray[max] == letter) {   
+    console.log("yess weer een")
+    if (newArray[min] == letter && newArray[max] == letter) {
+        var result = false;
+        console.log("yess weer een foute")
+      }
+    else {
+        var result = true;
+    }
+  }
+  
+  else {
+    var result = false;
+  }
+  return result;
+}
+
+for (j = 0; j < array.length; j++) {
+    console.log(j)
+    var splittedData = splitData(array[j]);
     var min = splittedData[0];
     var max = splittedData[1];
     var letter = splittedData[2];
     var encryptedCode = splittedData[3];
-    var IsThisPasswordRight = compareCount(min, max, letterCounter(encryptedCode, letter));
+    var IsThisPasswordRight = comparePlace(min, max, letter, encryptedCode);
     if (IsThisPasswordRight == true){
         rightPassword++;
     }
@@ -1069,5 +1091,6 @@ for (i = 0; i < array.length; i++) {
         
     }
 }
+
 
 console.log(rightPassword);
